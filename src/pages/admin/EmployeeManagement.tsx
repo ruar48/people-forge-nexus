@@ -365,7 +365,6 @@ export default function EmployeeManagement() {
       />
 
       <DataTable 
-        table={table} 
         columns={columns} 
         data={employees}
         searchPlaceholder="Search employees..."

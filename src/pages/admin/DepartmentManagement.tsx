@@ -273,7 +273,6 @@ export default function DepartmentManagement() {
       />
 
       <DataTable 
-        table={table} 
         columns={columns} 
         data={departments}
         searchPlaceholder="Search departments..."

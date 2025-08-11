@@ -1,5 +1,13 @@
 import * as React from "react";
-import { flexRender, Table as TableType } from "@tanstack/react-table";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,7 +32,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
 import {
   ChevronLeft,
   ChevronRight,
@@ -36,32 +43,41 @@ import {
   Settings2,
 } from "lucide-react";
 
-interface DataTableProps<TData> {
-  table: TableType<TData>;
-  columns: any[];
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchPlaceholder?: string;
+  searchColumn?: string;
   showExport?: boolean;
   showColumnToggle?: boolean;
   showPagination?: boolean;
   className?: string;
 }
 
-export function DataTable<TData>({
-  table,
+export function DataTable<TData, TValue>({
   columns,
   data,
   searchPlaceholder = "Search...",
+  searchColumn,
   showExport = true,
   showColumnToggle = true,
   showPagination = true,
   className,
-}: DataTableProps<TData>) {
+}: DataTableProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = React.useState("");
 
-  React.useEffect(() => {
-    table.setGlobalFilter(globalFilter);
-  }, [globalFilter, table]);
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      globalFilter,
+    },
+    onGlobalFilterChange: setGlobalFilter,
+  });
 
   return (
     <div className={cn("space-y-4", className)}>
