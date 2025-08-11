@@ -20,7 +20,7 @@ export default function IDGenerator() {
     prefix: "EMP",
     length: 3,
     department: "ENG",
-    separator: ""
+    separator: "none"
   });
   
   const [generatedIds, setGeneratedIds] = useState<string[]>([]);
@@ -37,7 +37,8 @@ export default function IDGenerator() {
       .toString()
       .padStart(idFormat.length, '0');
     
-    const newId = `${idFormat.prefix}${idFormat.separator}${idFormat.department}${idFormat.separator}${randomNum}`;
+    const actualSeparator = idFormat.separator === "none" ? "" : idFormat.separator;
+    const newId = `${idFormat.prefix}${actualSeparator}${idFormat.department}${actualSeparator}${randomNum}`;
     setGeneratedIds([newId, ...generatedIds.slice(0, 9)]);
     setSelectedEmployee(prev => ({ ...prev, id: newId }));
   };
@@ -117,13 +118,13 @@ export default function IDGenerator() {
                 <Label htmlFor="separator">Separator</Label>
                 <Select
                   value={idFormat.separator}
-                  onValueChange={(value) => setIdFormat({...idFormat, separator: value})}
+                  onValueChange={(value) => setIdFormat({...idFormat, separator: value === "none" ? "" : value})}
                 >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">None</SelectItem>
+                    <SelectItem value="none">None</SelectItem>
                     <SelectItem value="-">Dash (-)</SelectItem>
                     <SelectItem value="_">Underscore (_)</SelectItem>
                   </SelectContent>
@@ -135,7 +136,7 @@ export default function IDGenerator() {
               <Label>Preview Format</Label>
               <div className="mt-2 p-3 bg-muted rounded-lg">
                 <code className="text-lg font-mono">
-                  {idFormat.prefix}{idFormat.separator}{idFormat.department}{idFormat.separator}{"X".repeat(idFormat.length)}
+                  {idFormat.prefix}{idFormat.separator === "none" ? "" : idFormat.separator}{idFormat.department}{idFormat.separator === "none" ? "" : idFormat.separator}{"X".repeat(idFormat.length)}
                 </code>
               </div>
             </div>
