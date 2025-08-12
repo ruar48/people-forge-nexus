@@ -13,7 +13,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { QrCode, Download, RefreshCw, Building2, User } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { QrCode, Download, RefreshCw, Building2, User, RotateCcw } from "lucide-react";
 
 export default function IDGenerator() {
   const [idFormat, setIdFormat] = useState({
@@ -25,11 +26,16 @@ export default function IDGenerator() {
   
   const [generatedIds, setGeneratedIds] = useState<string[]>([]);
   const [selectedEmployee, setSelectedEmployee] = useState({
-    name: "John Doe",
-    position: "Senior Developer",
+    name: "Juan Carlos Dela Cruz",
+    position: "Senior Software Developer",
     department: "Engineering",
     id: "EMP001",
-    photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=John"
+    photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Juan",
+    address: "123 Rizal Street, Quezon City, Metro Manila",
+    emergencyContact: "Maria Dela Cruz (+63 917 123 4567)",
+    issueDate: "2024-01-15",
+    expiryDate: "2029-01-14",
+    signature: "Juan C. Dela Cruz"
   });
 
   const generateID = () => {
@@ -45,14 +51,24 @@ export default function IDGenerator() {
 
   const downloadIDCard = () => {
     // In a real app, this would generate and download a PDF
-    alert("ID Card download functionality would be implemented here");
+    alert("Philippine National ID-style card would be downloaded as PDF");
+  };
+
+  const generateQRCode = (employee: typeof selectedEmployee) => {
+    // Generate QR data with employee information
+    const qrData = `https://company.com/verify/${employee.id}?name=${encodeURIComponent(employee.name)}&dept=${encodeURIComponent(employee.department)}`;
+    return qrData;
   };
 
   return (
     <SidebarLayout type="admin">
       <PageHeader
         title="ID Generator"
-        subtitle="Generate unique employee IDs and printable ID cards"
+        subtitle="Generate Philippine National ID-style employee cards"
+        breadcrumbs={[
+          { label: "Dashboard", href: "/" },
+          { label: "ID Generator" }
+        ]}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -161,74 +177,188 @@ export default function IDGenerator() {
           </CardContent>
         </Card>
 
-        {/* ID Card Preview */}
+        {/* Philippine National ID Preview */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
               <Building2 className="w-5 h-5 mr-2 text-primary" />
-              ID Card Preview
+              Philippine National ID Preview
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {/* ID Card Design */}
-            <div className="bg-gradient-to-br from-primary to-primary/80 p-6 rounded-xl text-white shadow-lg">
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <h3 className="text-lg font-bold">TechCorp Industries</h3>
-                  <p className="text-sm opacity-90">Employee ID Card</p>
-                </div>
-                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
-                  <Building2 className="w-6 h-6" />
-                </div>
-              </div>
+            <Tabs defaultValue="front" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="front">Front Side</TabsTrigger>
+                <TabsTrigger value="back">Back Side</TabsTrigger>
+              </TabsList>
+              
+              {/* Front Side */}
+              <TabsContent value="front" className="mt-4">
+                <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 p-6 rounded-xl text-white shadow-lg border-2 border-blue-500 aspect-[1.586/1]">
+                  {/* Header */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                        <Building2 className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold">TECHCORP INDUSTRIES</h3>
+                        <p className="text-xs opacity-90">Employee Identification</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs opacity-75">REPUBLIC OF THE PHILIPPINES</p>
+                      <p className="text-xs font-semibold">EMPLOYEE ID</p>
+                    </div>
+                  </div>
 
-              <div className="flex items-center space-x-4 mb-4">
-                <div className="w-16 h-16 bg-white rounded-lg overflow-hidden">
-                  <img 
-                    src={selectedEmployee.photo} 
-                    alt={selectedEmployee.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex-1">
-                  <h4 className="font-semibold text-lg">{selectedEmployee.name}</h4>
-                  <p className="text-sm opacity-90">{selectedEmployee.position}</p>
-                  <p className="text-xs opacity-75">{selectedEmployee.department}</p>
-                </div>
-              </div>
+                  {/* Photo and Details */}
+                  <div className="flex items-center space-x-4 mb-4">
+                    <div className="w-20 h-24 bg-white rounded-lg overflow-hidden border-2 border-white">
+                      <img 
+                        src={selectedEmployee.photo} 
+                        alt={selectedEmployee.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-bold text-lg mb-1">{selectedEmployee.name}</h4>
+                      <p className="text-sm opacity-90 mb-1">{selectedEmployee.position}</p>
+                      <p className="text-xs opacity-75 mb-2">{selectedEmployee.department}</p>
+                      <div className="bg-white/20 px-2 py-1 rounded text-xs">
+                        ID: <span className="font-mono font-bold">{selectedEmployee.id}</span>
+                      </div>
+                    </div>
+                  </div>
 
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs opacity-75">Employee ID</p>
-                  <p className="font-mono font-bold text-lg">{selectedEmployee.id}</p>
+                  {/* Signature */}
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <div className="w-24 h-8 bg-white/20 rounded mb-1"></div>
+                      <p className="text-xs opacity-75">Employee Signature</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs opacity-75">Issued: {selectedEmployee.issueDate}</p>
+                      <p className="text-xs opacity-75">Expires: {selectedEmployee.expiryDate}</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-white rounded flex items-center justify-center">
-                  <QrCode className="w-8 h-8 text-primary" />
+              </TabsContent>
+
+              {/* Back Side */}
+              <TabsContent value="back" className="mt-4">
+                <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-xl text-gray-800 shadow-lg border-2 border-gray-300 aspect-[1.586/1]">
+                  {/* Header */}
+                  <div className="text-center mb-4 border-b border-gray-400 pb-2">
+                    <h3 className="text-sm font-bold text-blue-600">EMPLOYEE INFORMATION</h3>
+                    <p className="text-xs text-gray-600">For Official Use Only</p>
+                  </div>
+
+                  {/* QR Code and Information */}
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <div className="w-20 h-20 bg-white border-2 border-gray-400 rounded flex items-center justify-center mx-auto mb-2">
+                        <QrCode className="w-16 h-16 text-gray-700" />
+                      </div>
+                      <p className="text-xs text-center text-gray-600">Scan for verification</p>
+                      <p className="text-xs text-center text-gray-500 break-all mt-1">
+                        {generateQRCode(selectedEmployee).substring(0, 30)}...
+                      </p>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <div>
+                        <p className="text-xs font-semibold text-gray-700">ADDRESS:</p>
+                        <p className="text-xs text-gray-600">{selectedEmployee.address}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-700">EMERGENCY CONTACT:</p>
+                        <p className="text-xs text-gray-600">{selectedEmployee.emergencyContact}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Footer */}
+                  <div className="border-t border-gray-400 pt-2">
+                    <div className="grid grid-cols-2 gap-4 text-xs">
+                      <div>
+                        <p className="font-semibold text-gray-700">COMPANY:</p>
+                        <p className="text-gray-600">TechCorp Industries Inc.</p>
+                        <p className="text-gray-600">Manila, Philippines</p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-700">VALIDITY:</p>
+                        <p className="text-gray-600">This ID is valid for</p>
+                        <p className="text-gray-600">employment verification</p>
+                      </div>
+                    </div>
+                    <div className="text-center mt-2 pt-2 border-t border-gray-300">
+                      <p className="text-xs text-gray-500">For lost ID, contact HR immediately</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </TabsContent>
+            </Tabs>
 
             <div className="mt-6 space-y-4">
               <div>
                 <Label htmlFor="employee-select">Select Employee</Label>
                 <Select onValueChange={(value) => {
-                  // In a real app, this would fetch employee data
-                  setSelectedEmployee({
-                    name: value,
-                    position: "Senior Developer",
-                    department: "Engineering",
-                    id: generatedIds[0] || "EMP001",
-                    photo: `https://api.dicebear.com/7.x/avataaars/svg?seed=${value}`
-                  });
+                  // Sample employee data with Philippine-style information
+                  const employees = {
+                    "Juan Carlos Dela Cruz": {
+                      name: "Juan Carlos Dela Cruz",
+                      position: "Senior Software Developer",
+                      department: "Engineering",
+                      address: "123 Rizal Street, Quezon City, Metro Manila",
+                      emergencyContact: "Maria Dela Cruz (+63 917 123 4567)",
+                      signature: "Juan C. Dela Cruz"
+                    },
+                    "Maria Santos Reyes": {
+                      name: "Maria Santos Reyes",
+                      position: "Product Manager",
+                      department: "Product",
+                      address: "456 EDSA Avenue, Makati City, Metro Manila",
+                      emergencyContact: "Jose Reyes (+63 918 987 6543)",
+                      signature: "Maria S. Reyes"
+                    },
+                    "Carlos Miguel Hernandez": {
+                      name: "Carlos Miguel Hernandez",
+                      position: "UX Designer",
+                      department: "Design",
+                      address: "789 Bonifacio Street, Taguig City, Metro Manila",
+                      emergencyContact: "Ana Hernandez (+63 919 555 1234)",
+                      signature: "Carlos M. Hernandez"
+                    },
+                    "Ana Patricia Fernandez": {
+                      name: "Ana Patricia Fernandez",
+                      position: "HR Manager",
+                      department: "Human Resources",
+                      address: "321 Ayala Avenue, Makati City, Metro Manila",
+                      emergencyContact: "Luis Fernandez (+63 920 444 5678)",
+                      signature: "Ana P. Fernandez"
+                    }
+                  };
+                  
+                  const selectedEmp = employees[value as keyof typeof employees];
+                  if (selectedEmp) {
+                    setSelectedEmployee({
+                      ...selectedEmp,
+                      id: generatedIds[0] || "EMP001",
+                      photo: `https://api.dicebear.com/7.x/avataaars/svg?seed=${value}`,
+                      issueDate: "2024-01-15",
+                      expiryDate: "2029-01-14"
+                    });
+                  }
                 }}>
                   <SelectTrigger>
                     <SelectValue placeholder="Choose an employee" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="John Doe">John Doe</SelectItem>
-                    <SelectItem value="Sarah Wilson">Sarah Wilson</SelectItem>
-                    <SelectItem value="Mike Johnson">Mike Johnson</SelectItem>
-                    <SelectItem value="Emily Brown">Emily Brown</SelectItem>
+                    <SelectItem value="Juan Carlos Dela Cruz">Juan Carlos Dela Cruz</SelectItem>
+                    <SelectItem value="Maria Santos Reyes">Maria Santos Reyes</SelectItem>
+                    <SelectItem value="Carlos Miguel Hernandez">Carlos Miguel Hernandez</SelectItem>
+                    <SelectItem value="Ana Patricia Fernandez">Ana Patricia Fernandez</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -236,11 +366,11 @@ export default function IDGenerator() {
               <div className="grid grid-cols-2 gap-2">
                 <Button variant="outline" onClick={downloadIDCard}>
                   <Download className="w-4 h-4 mr-2" />
-                  Download PDF
+                  Download National ID
                 </Button>
                 <Button variant="outline">
                   <QrCode className="w-4 h-4 mr-2" />
-                  Print Card
+                  Print Both Sides
                 </Button>
               </div>
             </div>

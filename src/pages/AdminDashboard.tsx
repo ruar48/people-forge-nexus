@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatCard } from "@/components/ui/stat-card";
 import { PageHeader } from "@/components/ui/page-header";
-import MainLayout from "@/components/layout/MainLayout";
+import SidebarLayout from "@/components/layout/SidebarLayout";
 import { 
   Users, 
   Building2, 
@@ -23,13 +23,12 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
 
   return (
-    <MainLayout>
-      <div className="container mx-auto px-6 py-8">
+    <SidebarLayout type="admin">
         <PageHeader
           title="Admin Dashboard"
           subtitle="Welcome back! Here's an overview of your organization."
           breadcrumbs={[
-            { label: "Portal Selection", href: "/" },
+            { label: "Dashboard", href: "/" },
             { label: "Admin Dashboard" }
           ]}
           actions={
@@ -95,23 +94,43 @@ export default function AdminDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Button variant="outline" className="w-full justify-start">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start"
+                onClick={() => navigate("/admin/employees")}
+              >
                 <Users className="w-4 h-4 mr-2" />
                 Add New Employee
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start"
+                onClick={() => navigate("/admin/departments")}
+              >
                 <Building2 className="w-4 h-4 mr-2" />
                 Create Department
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start"
+                onClick={() => navigate("/admin/id-generator")}
+              >
                 <FileText className="w-4 h-4 mr-2" />
                 Generate ID Card
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start"
+                onClick={() => navigate("/admin/attendance")}
+              >
                 <Calendar className="w-4 h-4 mr-2" />
                 Review Leave Requests
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start"
+                onClick={() => navigate("/admin/payroll")}
+              >
                 <DollarSign className="w-4 h-4 mr-2" />
                 Process Payroll
               </Button>
@@ -135,7 +154,7 @@ export default function AdminDashboard() {
                   { action: "Payroll processed", name: "Monthly Payroll", time: "1 day ago", type: "success" },
                   { action: "ID card generated", name: "Alex Rodriguez", time: "2 days ago", type: "default" }
                 ].map((activity, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                  <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
                     <div className="flex items-center space-x-3">
                       <div className={`w-2 h-2 rounded-full ${
                         activity.type === 'success' ? 'bg-success' :
@@ -175,7 +194,7 @@ export default function AdminDashboard() {
                 { name: "Design", employees: 15, present: 14, percentage: 93.3 },
                 { name: "Legal", employees: 8, present: 8, percentage: 100 }
               ].map((dept, index) => (
-                <div key={index} className="p-4 bg-gradient-card rounded-lg border hover:shadow-soft transition-all duration-300">
+                <div key={index} className="p-4 bg-gradient-card rounded-lg border hover:shadow-soft transition-all duration-300 cursor-pointer hover:-translate-y-1">
                   <h4 className="font-semibold text-foreground mb-2">{dept.name}</h4>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">
@@ -194,7 +213,6 @@ export default function AdminDashboard() {
             </div>
           </CardContent>
         </Card>
-      </div>
-    </MainLayout>
+    </SidebarLayout>
   );
 }
