@@ -16,6 +16,14 @@ import PortfolioManagement from "./pages/admin/PortfolioManagement";
 import IDGenerator from "./pages/admin/IDGenerator";
 import Settings from "./pages/admin/Settings";
 import EmployeeProfile from "./pages/employee/EmployeeProfile";
+import EmployeeDepartment from "./pages/employee/EmployeeDepartment";
+import EmployeeAttendance from "./pages/employee/EmployeeAttendance";
+import EmployeePayroll from "./pages/employee/EmployeePayroll";
+import EmployeeLeaves from "./pages/employee/EmployeeLeaves";
+import EmployeeNotifications from "./pages/employee/EmployeeNotifications";
+import EmployeeSupport from "./pages/employee/EmployeeSupport";
+import EmployeePortfolio from "./pages/employee/EmployeePortfolio";
+import EmployeeSettings from "./pages/employee/EmployeeSettings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,6 +51,14 @@ const App = () => (
           {/* Employee Routes */}
           <Route path="/employee" element={<EmployeeDashboard />} />
           <Route path="/employee/profile" element={<EmployeeProfile />} />
+          <Route path="/employee/department" element={<EmployeeDepartment />} />
+          <Route path="/employee/attendance" element={<EmployeeAttendance />} />
+          <Route path="/employee/payroll" element={<EmployeePayroll />} />
+          <Route path="/employee/leaves" element={<EmployeeLeaves />} />
+          <Route path="/employee/notifications" element={<EmployeeNotifications />} />
+          <Route path="/employee/support" element={<EmployeeSupport />} />
+          <Route path="/employee/portfolio" element={<EmployeePortfolio />} />
+          <Route path="/employee/settings" element={<EmployeeSettings />} />
           
           {/* Shared Routes */}
           <Route path="/portfolio" element={<CompanyPortfolio />} />

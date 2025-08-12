@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatCard } from "@/components/ui/stat-card";
 import { PageHeader } from "@/components/ui/page-header";
-import MainLayout from "@/components/layout/MainLayout";
+import SidebarLayout from "@/components/layout/SidebarLayout";
 import { 
   User, 
   Calendar, 
@@ -14,15 +14,25 @@ import {
   Edit,
   CheckCircle,
   AlertCircle,
-  Building
+  Building,
+  TrendingUp,
+  TrendingDown
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function EmployeeDashboard() {
   const navigate = useNavigate();
 
+  const recentActivities = [
+    { date: "Dec 15, 2024", action: "Clocked In", time: "9:00 AM", status: "success" },
+    { date: "Dec 14, 2024", action: "Leave Request Approved", time: "2:30 PM", status: "success" },
+    { date: "Dec 13, 2024", action: "Payslip Generated", time: "5:00 PM", status: "info" },
+    { date: "Dec 12, 2024", action: "Profile Updated", time: "11:15 AM", status: "info" },
+    { date: "Dec 11, 2024", action: "Clocked Out", time: "6:30 PM", status: "success" }
+  ];
+
   return (
-    <MainLayout>
+    <SidebarLayout type="employee">
       <div className="container mx-auto px-6 py-8">
         <PageHeader
           title="Employee Dashboard"
@@ -78,7 +88,7 @@ export default function EmployeeDashboard() {
           />
         </div>
 
-        {/* Quick Actions & Announcements */}
+        {/* Quick Actions & Recent Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           {/* Personal Quick Actions */}
           <Card className="lg:col-span-1">
@@ -89,78 +99,72 @@ export default function EmployeeDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Button variant="outline" className="w-full justify-start">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start hover-scale transition-transform duration-200"
+                onClick={() => navigate('/employee/leaves')}
+              >
                 <Calendar className="w-4 h-4 mr-2" />
                 Request Leave
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start hover-scale transition-transform duration-200"
+                onClick={() => navigate('/employee/attendance')}
+              >
                 <Clock className="w-4 h-4 mr-2" />
                 Clock In/Out
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start hover-scale transition-transform duration-200"
+                onClick={() => navigate('/employee/payroll')}
+              >
                 <DollarSign className="w-4 h-4 mr-2" />
                 View Payslips
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start hover-scale transition-transform duration-200"
+                onClick={() => navigate('/employee/profile')}
+              >
                 <FileText className="w-4 h-4 mr-2" />
                 Update Profile
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start hover-scale transition-transform duration-200"
+                onClick={() => navigate('/employee/support')}
+              >
                 <MessageSquare className="w-4 h-4 mr-2" />
                 Contact Support
               </Button>
             </CardContent>
           </Card>
 
-          {/* Recent Announcements */}
+          {/* Recent Activity */}
           <Card className="lg:col-span-2">
             <CardHeader>
               <CardTitle className="flex items-center">
-                <MessageSquare className="w-5 h-5 mr-2 text-primary" />
-                Company Announcements
+                <Clock className="w-5 h-5 mr-2 text-primary" />
+                Recent Activity
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {[
-                  { 
-                    title: "Q4 All-Hands Meeting", 
-                    content: "Join us for the quarterly review and planning session.",
-                    date: "Dec 15, 2024",
-                    priority: "high"
-                  },
-                  { 
-                    title: "Holiday Schedule Released", 
-                    content: "Check the updated holiday calendar for 2025.",
-                    date: "Dec 10, 2024",
-                    priority: "medium"
-                  },
-                  { 
-                    title: "New Health Benefits", 
-                    content: "Enhanced medical coverage starting January 2025.",
-                    date: "Dec 8, 2024",
-                    priority: "medium"
-                  },
-                  { 
-                    title: "Office Renovation Update", 
-                    content: "Temporary workspace changes effective next week.",
-                    date: "Dec 5, 2024",
-                    priority: "low"
-                  }
-                ].map((announcement, index) => (
-                  <div key={index} className="p-4 bg-muted/30 rounded-lg border-l-4 border-l-primary">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-foreground mb-1">{announcement.title}</h4>
-                        <p className="text-sm text-muted-foreground mb-2">{announcement.content}</p>
-                        <span className="text-xs text-muted-foreground">{announcement.date}</span>
-                      </div>
-                      <div className={`w-2 h-2 rounded-full ml-4 mt-2 ${
-                        announcement.priority === 'high' ? 'bg-destructive' :
-                        announcement.priority === 'medium' ? 'bg-warning' :
-                        'bg-success'
+                {recentActivities.map((activity, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border border-border/50 hover:shadow-soft transition-all duration-200">
+                    <div className="flex items-center space-x-3">
+                      <div className={`w-2 h-2 rounded-full ${
+                        activity.status === 'success' ? 'bg-success' : 
+                        activity.status === 'warning' ? 'bg-warning' : 'bg-primary'
                       }`} />
+                      <div>
+                        <p className="text-sm font-medium text-foreground">{activity.action}</p>
+                        <p className="text-xs text-muted-foreground">{activity.date}</p>
+                      </div>
                     </div>
+                    <span className="text-xs text-muted-foreground">{activity.time}</span>
                   </div>
                 ))}
               </div>
@@ -251,6 +255,6 @@ export default function EmployeeDashboard() {
           </Card>
         </div>
       </div>
-    </MainLayout>
+    </SidebarLayout>
   );
 }
