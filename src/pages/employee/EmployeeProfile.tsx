@@ -28,7 +28,9 @@ import {
   IdCard, 
   Edit,
   Download,
-  Camera
+  Camera,
+  QrCode,
+  RotateCcw
 } from "lucide-react";
 
 export default function EmployeeProfile() {
@@ -129,10 +131,93 @@ export default function EmployeeProfile() {
                   <Badge variant="success" className="mt-2">{employee.status}</Badge>
                 </div>
 
-                <Button variant="outline" className="w-full">
-                  <Download className="w-4 h-4 mr-2" />
-                  Download ID Card
-                </Button>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" className="w-full">
+                      <IdCard className="w-4 h-4 mr-2" />
+                      View ID Card
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[800px]">
+                    <DialogHeader>
+                      <DialogTitle>Employee ID Card</DialogTitle>
+                      <DialogDescription>
+                        Philippine National ID Style - Front and Back
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 py-4">
+                      {/* Front of ID Card */}
+                      <div className="space-y-4">
+                        <h4 className="font-medium text-center">Front</h4>
+                        <div className="bg-gradient-primary p-6 rounded-lg text-white shadow-strong aspect-[1.6/1] relative overflow-hidden">
+                          <div className="absolute top-2 right-2 text-xs opacity-80">ID-001</div>
+                          <div className="flex items-start space-x-4 h-full">
+                            <div className="w-20 h-24 bg-white/10 rounded border-2 border-white/20 flex items-center justify-center text-3xl">
+                              👤
+                            </div>
+                            <div className="flex-1 space-y-2">
+                              <div>
+                                <h3 className="font-bold text-lg">{employee.name.toUpperCase()}</h3>
+                                <p className="text-sm opacity-90">{employee.position}</p>
+                                <p className="text-xs opacity-80">{employee.department}</p>
+                              </div>
+                              <div className="text-xs space-y-1">
+                                <p>Employee ID: {employee.id}</p>
+                                <p>Valid Until: Dec 2025</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="absolute bottom-2 left-6 right-6">
+                            <div className="border-t border-white/30 pt-2">
+                              <p className="text-xs text-center opacity-80">TECHCORP INDUSTRIES</p>
+                              <div className="h-4 border-b border-white/30 mt-1">
+                                <p className="text-xs opacity-60">Signature</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Back of ID Card */}
+                      <div className="space-y-4">
+                        <h4 className="font-medium text-center">Back</h4>
+                        <div className="bg-card border rounded-lg p-6 shadow-strong aspect-[1.6/1] relative">
+                          <div className="h-full flex flex-col">
+                            <div className="flex justify-between items-start mb-4">
+                              <div className="text-xs space-y-1">
+                                <p className="font-medium">Contact Information:</p>
+                                <p>{employee.email}</p>
+                                <p>{employee.phone}</p>
+                                <p className="font-medium mt-2">Emergency Contact:</p>
+                                <p>{employee.emergency.name}</p>
+                                <p>{employee.emergency.phone}</p>
+                              </div>
+                              <div className="w-16 h-16 bg-muted rounded flex items-center justify-center">
+                                <QrCode className="w-12 h-12" />
+                              </div>
+                            </div>
+                            <div className="flex-1"></div>
+                            <div className="text-xs border-t pt-2 space-y-1">
+                              <p>Issued: Jan 2024</p>
+                              <p>Expires: Dec 2025</p>
+                              <p className="text-muted-foreground">TechCorp Industries</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button variant="outline">
+                        <RotateCcw className="w-4 h-4 mr-2" />
+                        Flip Card
+                      </Button>
+                      <Button>
+                        <Download className="w-4 h-4 mr-2" />
+                        Download ID
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </div>
             </CardContent>
           </Card>

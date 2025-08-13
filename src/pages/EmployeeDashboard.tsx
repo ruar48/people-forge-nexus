@@ -172,46 +172,57 @@ export default function EmployeeDashboard() {
           </Card>
         </div>
 
-        {/* Personal Information & Company Portfolio */}
+        {/* Announcements & Company Portfolio */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Personal Information */}
+          {/* Announcements */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
-                <User className="w-5 h-5 mr-2 text-primary" />
-                Personal Information
+                <MessageSquare className="w-5 h-5 mr-2 text-primary" />
+                Latest Announcements
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                    <User className="w-8 h-8 text-primary" />
+                {[
+                  {
+                    id: 1,
+                    title: "Holiday Schedule 2024",
+                    description: "Updated holiday calendar for the remainder of 2024 and early 2025.",
+                    date: "Dec 15, 2024",
+                    type: "HR"
+                  },
+                  {
+                    id: 2,
+                    title: "New Health Insurance Policy",
+                    description: "Enhanced coverage options now available for all employees.",
+                    date: "Dec 12, 2024",
+                    type: "Benefits"
+                  },
+                  {
+                    id: 3,
+                    title: "Q4 Performance Reviews",
+                    description: "Performance review cycle begins January 2nd. Schedule meetings with managers.",
+                    date: "Dec 10, 2024",
+                    type: "HR"
+                  }
+                ].map((announcement) => (
+                  <div key={announcement.id} className="p-3 bg-muted/30 rounded-lg border border-border/50">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h5 className="font-medium text-foreground">{announcement.title}</h5>
+                        <p className="text-xs text-muted-foreground mt-1">{announcement.description}</p>
+                        <div className="flex items-center space-x-2 mt-2">
+                          <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded">{announcement.type}</span>
+                          <span className="text-xs text-muted-foreground">{announcement.date}</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground">Sarah Johnson</h4>
-                    <p className="text-sm text-muted-foreground">Senior Frontend Developer</p>
-                    <p className="text-sm text-muted-foreground">Engineering Department</p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4 pt-4">
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Employee ID</p>
-                    <p className="text-sm text-muted-foreground">ENG-2024-001</p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Join Date</p>
-                    <p className="text-sm text-muted-foreground">March 15, 2022</p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Manager</p>
-                    <p className="text-sm text-muted-foreground">Alex Rodriguez</p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Location</p>
-                    <p className="text-sm text-muted-foreground">New York Office</p>
-                  </div>
-                </div>
+                ))}
+                <Button variant="outline" className="w-full" onClick={() => navigate('/employee/notifications')}>
+                  View All Announcements
+                </Button>
               </div>
             </CardContent>
           </Card>
