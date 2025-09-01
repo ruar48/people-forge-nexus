@@ -12,6 +12,8 @@ import { Separator } from "@/components/ui/separator";
 import { Settings as SettingsIcon, Building2, Users, Bell, Shield, Palette } from "lucide-react";
 
 export default function Settings() {
+  const navigate = useNavigate();
+
   return (
     <SidebarLayout type="admin">
       <PageHeader

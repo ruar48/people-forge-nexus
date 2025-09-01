@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatCard } from "@/components/ui/stat-card";
 import { PageHeader } from "@/components/ui/page-header";
 import SidebarLayout from "@/components/layout/SidebarLayout";
+import { AIChatbox } from "@/components/ai/AIChatbox";
 import { 
   User, 
   Calendar, 
@@ -16,7 +17,8 @@ import {
   AlertCircle,
   Building,
   TrendingUp,
-  TrendingDown
+  TrendingDown,
+  Sparkles
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -266,6 +268,9 @@ export default function EmployeeDashboard() {
           </Card>
         </div>
       </div>
+
+      {/* AI Chatbox */}
+      <AIChatbox userType="employee" />
     </SidebarLayout>
   );
 }

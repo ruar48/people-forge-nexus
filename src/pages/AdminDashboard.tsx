@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatCard } from "@/components/ui/stat-card";
 import { PageHeader } from "@/components/ui/page-header";
 import SidebarLayout from "@/components/layout/SidebarLayout";
+import { AIChatbox } from "@/components/ai/AIChatbox";
+import { AIInsightsDashboard } from "@/components/ai/AIInsights";
 import { 
   Users, 
   Building2, 
@@ -15,7 +17,8 @@ import {
   Plus,
   Download,
   Settings,
-  Bell
+  Bell,
+  Sparkles
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -213,6 +216,14 @@ export default function AdminDashboard() {
             </div>
           </CardContent>
         </Card>
+
+        {/* AI Insights Section */}
+        <div className="mt-8">
+          <AIInsightsDashboard />
+        </div>
+
+      {/* AI Chatbox */}
+      <AIChatbox userType="admin" />
     </SidebarLayout>
   );
 }
