@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Settings as SettingsIcon, Building2, Users, Bell, Shield, Palette } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Settings() {
   const navigate = useNavigate();

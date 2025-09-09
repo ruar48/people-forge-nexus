@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { QrCode, Download, RefreshCw, Building2, User, RotateCcw } from "lucide-react";
+import { QrCode, Download, RefreshCw, Building2, User, RotateCcw, GraduationCap, Briefcase } from "lucide-react";
 
 export default function IDGenerator() {
   const [idFormat, setIdFormat] = useState({
@@ -25,6 +25,7 @@ export default function IDGenerator() {
   });
   
   const [generatedIds, setGeneratedIds] = useState<string[]>([]);
+  const [idDesignType, setIdDesignType] = useState<"national" | "student" | "corporate">("national");
   const [selectedEmployee, setSelectedEmployee] = useState({
     name: "Juan Carlos Dela Cruz",
     position: "Senior Software Developer",
@@ -35,7 +36,10 @@ export default function IDGenerator() {
     emergencyContact: "Maria Dela Cruz (+63 917 123 4567)",
     issueDate: "2024-01-15",
     expiryDate: "2029-01-14",
-    signature: "Juan C. Dela Cruz"
+    signature: "Juan C. Dela Cruz",
+    bloodType: "O+",
+    studentId: "2024-001234",
+    course: "Computer Science"
   });
 
   const generateID = () => {
@@ -51,7 +55,8 @@ export default function IDGenerator() {
 
   const downloadIDCard = () => {
     // In a real app, this would generate and download a PDF
-    alert("Philippine National ID-style card would be downloaded as PDF");
+    const designName = idDesignType.charAt(0).toUpperCase() + idDesignType.slice(1);
+    alert(`${designName} ID card would be downloaded as PDF`);
   };
 
   const generateQRCode = (employee: typeof selectedEmployee) => {
@@ -177,15 +182,33 @@ export default function IDGenerator() {
           </CardContent>
         </Card>
 
-        {/* Philippine National ID Preview */}
+        {/* ID Card Preview */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
-              <Building2 className="w-5 h-5 mr-2 text-primary" />
-              Philippine National ID Preview
+              {idDesignType === "national" && <Building2 className="w-5 h-5 mr-2 text-primary" />}
+              {idDesignType === "student" && <GraduationCap className="w-5 h-5 mr-2 text-primary" />}
+              {idDesignType === "corporate" && <Briefcase className="w-5 h-5 mr-2 text-primary" />}
+              {idDesignType === "national" && "Philippine National ID Preview"}
+              {idDesignType === "student" && "Student ID Preview"}
+              {idDesignType === "corporate" && "Corporate ID Preview"}
             </CardTitle>
           </CardHeader>
           <CardContent>
+            <div className="mb-4">
+              <Label>ID Design Type</Label>
+              <Select value={idDesignType} onValueChange={(value: "national" | "student" | "corporate") => setIdDesignType(value)}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="national">National ID Style</SelectItem>
+                  <SelectItem value="student">Student ID Style</SelectItem>
+                  <SelectItem value="corporate">Corporate ID Style</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
             <Tabs defaultValue="front" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="front">Front Side</TabsTrigger>
@@ -312,7 +335,10 @@ export default function IDGenerator() {
                       department: "Engineering",
                       address: "123 Rizal Street, Quezon City, Metro Manila",
                       emergencyContact: "Maria Dela Cruz (+63 917 123 4567)",
-                      signature: "Juan C. Dela Cruz"
+                      signature: "Juan C. Dela Cruz",
+                      bloodType: "O+",
+                      studentId: "2024-001234",
+                      course: "Computer Science"
                     },
                     "Maria Santos Reyes": {
                       name: "Maria Santos Reyes",
@@ -320,7 +346,10 @@ export default function IDGenerator() {
                       department: "Product",
                       address: "456 EDSA Avenue, Makati City, Metro Manila",
                       emergencyContact: "Jose Reyes (+63 918 987 6543)",
-                      signature: "Maria S. Reyes"
+                      signature: "Maria S. Reyes",
+                      bloodType: "A+",
+                      studentId: "2024-001235",
+                      course: "Business Administration"
                     },
                     "Carlos Miguel Hernandez": {
                       name: "Carlos Miguel Hernandez",
@@ -328,7 +357,10 @@ export default function IDGenerator() {
                       department: "Design",
                       address: "789 Bonifacio Street, Taguig City, Metro Manila",
                       emergencyContact: "Ana Hernandez (+63 919 555 1234)",
-                      signature: "Carlos M. Hernandez"
+                      signature: "Carlos M. Hernandez",
+                      bloodType: "B+",
+                      studentId: "2024-001236",
+                      course: "Fine Arts"
                     },
                     "Ana Patricia Fernandez": {
                       name: "Ana Patricia Fernandez",
@@ -336,7 +368,10 @@ export default function IDGenerator() {
                       department: "Human Resources",
                       address: "321 Ayala Avenue, Makati City, Metro Manila",
                       emergencyContact: "Luis Fernandez (+63 920 444 5678)",
-                      signature: "Ana P. Fernandez"
+                      signature: "Ana P. Fernandez",
+                      bloodType: "AB+",
+                      studentId: "2024-001237",
+                      course: "Psychology"
                     }
                   };
                   
@@ -366,7 +401,7 @@ export default function IDGenerator() {
               <div className="grid grid-cols-2 gap-2">
                 <Button variant="outline" onClick={downloadIDCard}>
                   <Download className="w-4 h-4 mr-2" />
-                  Download National ID
+                  Download {idDesignType.charAt(0).toUpperCase() + idDesignType.slice(1)} ID
                 </Button>
                 <Button variant="outline">
                   <QrCode className="w-4 h-4 mr-2" />
